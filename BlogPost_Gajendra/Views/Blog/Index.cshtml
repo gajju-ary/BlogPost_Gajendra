@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BlogPost_Gajendra.Models.BlogPost>
+
+@{
+    ViewData["Title"] = "Blog HomePage";
+}
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<h1>Blog</h1>
+
+<p>
+    <a asp-action="CreatePost">Create New</a>
+
+</p>
+<div class="text-center">
+    <label for="search">Enter Text</label>
+    <input type="text" id="search" />
+    <button class="btn btn-primary" onclick="Search();">Search</button>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateModified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateModified)
+                </td>
+                <td>
+                    <a asp-action="EditPost" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="GetBlogById" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="DeletePost" onclick="deletePost();" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+
+    function Search() {
+        //debugger
+        var text = document.getElementById("search").value;
+        $.ajax({
+            url: '/Blog/Search/?text=' + text,
+            type: 'Get',
+            success: function (response) {
+                //debugger
+                var data = []; // TO STORE RESULT FOR ALERT
+                if (response.length > 0) {
+                    response.forEach(function (item) {
+                        data.push("Post Id:"+item.id,"Post Title:"+item.title,item.content+"\n");
+                    });
+                }
+                alert(data);
+            },
+            Error: function (e) {
+                alert("No Blog Found");
+            }
+        });
+    }
+</script>
