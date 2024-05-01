@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BlogPost_Gajendra.Models.BlogPost>
-
+@* @model Tuple<BlogPost_Gajendra.Models.BlogPost,BlogPost_Gajendra.Models.Demo> *@
 @{
     ViewData["Title"] = "Blog HomePage";
 }
@@ -64,6 +64,7 @@
 <script>
 
     function Search() {
+ 
         //debugger
         var text = document.getElementById("search").value;
         $.ajax({
