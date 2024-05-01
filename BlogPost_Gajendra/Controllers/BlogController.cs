@@ -108,7 +108,7 @@ namespace BlogPost_Gajendra.Controllers
         [HttpGet]
         public IActionResult Search(string text)
         {
-            var blog = _dbContext.BlogPosts.Where(e => e.Content.Contains(text)).ToList();
+            var blog = _dbContext.BlogPosts.Where(e => e.Content.Contains(text) || e.Title.Contains(text)).ToList();
             if (blog.Count <= 0 )
             {
                 return NotFound();
